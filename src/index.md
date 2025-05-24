@@ -1,7 +1,7 @@
 ---
 layout: layouts/project-pwa.liquid
 totop: 1
-title: ОПА/legacy
+title: ОПА/LEGACY
 makeProject: false
-project-name: legacy
+project-name: LEGACY
 ---
