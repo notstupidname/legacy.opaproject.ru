@@ -1,6 +1,7 @@
 body.pwa {
 
   --navtop: calc(var(--space-xl) + 2 * var(--gap));
+  --column-width: 80ch;
 
   & nav {
 
@@ -104,6 +105,26 @@ body.pwa {
     }
   }
 
+  & #site-header {
+    justify-content: space-between;
+
+    & button.print-button {
+      padding: var(--space-s);
+      font-size: var(--step-2);
+      border-radius: 50%;
+      box-shadow: none;
+
+      & svg.icon {
+        height: 1em;
+
+        & path {
+          stroke-width: 2px;
+          fill: none;
+        }
+      }
+    }
+  }
+
   & .banner {
     min-block-size: 70vh;
     padding: 0;
@@ -111,6 +132,25 @@ body.pwa {
 
     & model-viewer {
       block-size: 100%;
+    }
+  }
+
+  & section.main-header {
+    margin-block-end: 0;
+  }
+
+  & details {
+    margin-inline: 0;
+
+    &>summary::after {
+      mix-blend-mode: normal;
+      background-blend-mode: difference;
+      background-color: var(--color-back-10);
+      padding: var(--space-m);
+      background-size: 50%;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: var(--border-radius);
     }
   }
 
@@ -131,14 +171,21 @@ body.pwa {
   & .items {
     grid-template-columns: 1fr var(--space-s-l) var(--space-s-l) 1fr;
     gap: var(--space-m-l) 0;
-    margin-block-start: var(--space-xl);
+    margin-block-start: var(--space-s-l);
     transition: all var(--duration) var(--easing);
 
     & a {
       text-decoration-color: transparent;
+      border-radius: var(--border-radius);
+
 
       &:hover {
         text-decoration-color: var(--color-text-10);
+      }
+
+      &.checked-node {
+        outline: dashed 4px var(--color-primary);
+        outline-offset: 6px;
       }
     }
 
@@ -194,7 +241,7 @@ body.pwa {
 
   & .card {
     display: flex;
-    gap: var(--space-xs);
+    gap: var(--space-xs-l);
     border-block-end: solid 1px var(--color-back-5);
     padding-block-end: var(--space-2xs);
 
@@ -233,6 +280,87 @@ body.pwa {
     }
   }
 
+  &.design #site-header a.logo {
+    text-shadow: .1ch .1ch 4px red, .1ch -.1ch 4px blue, -.1ch 0 4px green;
+  }
+
+  & main :where(ul, ol):not([class]) {
+    list-style-type: disc;
+    padding-inline-start: 2ch;
+    /* font-weight: var(--font-weight-light); */
+
+    li:not(:first-child) {
+      margin-block-start: 1em;
+    }
+  }
+
+}
+
+@media print {
+  :root {
+    --color-back: #fff;
+    --color-text: #000;
+    --color-primary: #e69679;
+  }
+
+  body.pwa {
+
+    nav,
+    #site-header label,
+    section.banner,
+    #site-footer {
+      display: none;
+    }
+
+    #site-header {
+      position: relative;
+
+      & .logo span:nth-child(3) {
+        color: var(--color-primary);
+      }
+    }
+
+    &>main>section {
+      grid-column: content;
+      padding-inline: 0;
+      background: var(--color-back);
+      page-break-before: always;
+      page-break-inside: avoid;
+      break-before: page;
+      break-inside: avoid;
+      margin-block-start: 0;
+    }
+
+    section.main-header {
+      page-break-before: avoid;
+      break-before: avoid;
+    }
+
+    .card {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    details {
+      padding-inline: 0;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      page-break-after: avoid;
+    }
+
+  }
 
 
+
+
+
+  @page {
+    size: A4 portrait;
+    margin: 1cm;
+  }
 }
